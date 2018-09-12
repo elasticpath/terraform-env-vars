@@ -3,54 +3,75 @@
 # Check https://circleci.com/docs/2.0/language-clojure/ for more details
 #
 version: 2
+defaults: &defaults
+  docker:
+      - image: circleci/clojure:tools-deps-node
+  working_directory: ~/terraform-env-vars
+  shell: /bin/bash --login -o pipefail
+
+run-install-yarn: &run-install-yarn
+  name: Install yarn
+  command: |
+    if [[ ! -d "$HOME/.yarn" ]]; then
+    curl -o- -L https://yarnpkg.com/install.sh | bash;
+    fi
+    # Adding to $BASH_ENV
+    echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
+
+restore-cache: &restore-cache
+  keys:
+    - cache-eib7eeDu-{{ .Branch }}-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+    # fallback to using the latest cache if no exact match is found
+    - cache-eib7eeDu-{{ .Branch }}
+
+save-cache: &save-cache
+  paths:
+    - ~/.m2
+    - ~/.yarn
+    - ~/.cache/yarn
+    - ~/.config/yarn
+    - ./node_modules
+    - ./cpcache
+  key: cache-eib7eeDu-{{ .Branch }}-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/tools-deps-node
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/terraform-env-vars
-    parallelism: 1
-    shell: /bin/bash --login -o pipefail
-
-    environment:
-      # LEIN_ROOT: "true"
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-
+  publish:
+    <<: *defaults
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "deps.edn" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          <<: *restore-cache
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish --access public
+      - save-cache:
+          <<: *save-cache
 
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *restore-cache
       - run:
-        name: Install yarn
-        command: |
-          if [[ ! -d "$HOME/.yarn" ]]; then
-            curl -o- -L https://yarnpkg.com/install.sh | bash;
-          fi
-          # Adding to $BASH_ENV
-          echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - ~/.m2
-            - ~/.yarn
-            - ~/.cache/yarn
-            - ~/.config/yarn
-            - ./node_modules
-          key: cache-nogh3Eta-{{ .Branch }}-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
-
+          <<: *run-install-yarn
+      - run: yarn install --ignore-scripts
       - run: yarn test
+      - save-cache:
+          <<: *save-cache
+
+workflows:
+  version: 2
+  test-and-publish:
+    jobs:
+      - test:
+          filters:  # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - publish:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
