@@ -1,0 +1,11 @@
+{:paths ["src"]
+ :deps {org.clojure/tools.cli {:mvn/version "0.3.7"}
+        expound {:mvn/version "0.7.0"}}
+ :aliases {:dev {:extra-paths ["dev"]
+                 :extra-deps {org.clojure/clojure {:mvn/version "1.10.0-alpha7"}
+                              org.clojure/clojurescript {:mvn/version "1.10.339"}}}
+           :test {:extra-paths ["test"]
+                  :extra-deps {org.clojure/test.check {:mvn/version "0.10.0-alpha3" :exclusions [org.clojure/clojure]}
+                               orchestra {:mvn/version "2017.11.12-1"}
+                               pjstadig/humane-test-output {:git/url "https://github.com/pjstadig/humane-test-output"
+                                                            :sha "2ba273ea358bd8024d0cac582753ec0f6bc1c20f"}}}}}

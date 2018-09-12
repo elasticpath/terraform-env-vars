@@ -1,0 +1,56 @@
+# Clojure CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-clojure/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/tools-deps-node
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/terraform-env-vars
+    parallelism: 1
+    shell: /bin/bash --login -o pipefail
+
+    environment:
+      # LEIN_ROOT: "true"
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "deps.edn" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+        name: Install yarn
+        command: |
+          if [[ ! -d "$HOME/.yarn" ]]; then
+            curl -o- -L https://yarnpkg.com/install.sh | bash;
+          fi
+          # Adding to $BASH_ENV
+          echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - ~/.m2
+            - ~/.yarn
+            - ~/.cache/yarn
+            - ~/.config/yarn
+            - ./node_modules
+          key: cache-nogh3Eta-{{ .Branch }}-{{ checksum "deps.edn" }}-{{ checksum "yarn.lock" }}
+
+      - run: yarn test

@@ -1,0 +1,35 @@
+{
+  "name": "@elasticpath/terraform-env-vars",
+  "version": "0.7.0",
+  "description": "Continuous delivery helpers",
+  "author": "Elastic Path Software",
+  "repository": "https://github.com/elasticpath/terraform-env-vars",
+  "license": "Apache-2.0",
+  "keywords": [
+    "elasticpath",
+    "elastic",
+    "path",
+    "elasticpath",
+    "terraform",
+    "env vars"
+  ],
+  "bin": {
+    "terraform-env-vars": "./bin/terraform-env-vars"
+  },
+  "files": [
+    "src/*",
+    "bin/*"
+  ],
+  "scripts": {
+    "print-version": "echo $npm_package_version",
+    "prepare": "yarn shadow-cljs release script",
+    "test": "yarn shadow-cljs release test && node .cljs/tests.js",
+    "test:watch": "yarn shadow-cljs watch test"
+  },
+  "dependencies": {
+    "get-stdin": "6.0.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.6.7"
+  }
+}

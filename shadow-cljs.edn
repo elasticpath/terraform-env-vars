@@ -1,0 +1,19 @@
+{:source-paths ["src"]
+ :deps {:aliases [:dev :test]}
+ :builds {:script {:target :node-script
+                   :main ep.terraform.env-vars/-main
+                   :output-to "bin/terraform-env-vars"
+                   :release {:compiler-options {:optimizations :simple}}
+                   :devtools {:autoload false}}
+
+          :test {:target :node-test
+                 :autorun true
+                 :ns-regexp "ep.terraform"
+                 :devtools {:preloads [ep.terraform.test-preload]}
+                 :release {:compiler-options {:optimizations :simple
+                                              :variable-renaming :off
+                                              :property-renaming :off
+                                              :pretty-print true
+                                              :source-map true}
+                           :autorun false}
+                 :output-to ".cljs/tests.js"}}}
