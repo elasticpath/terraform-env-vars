@@ -35,7 +35,7 @@ Run `terraform-env-vars --help` for more.
 #### Usage
 
 ```shell
-npm install -g @elasticpath/terraform-env-vars -g
+npm install -g @ep-npm/terraform-env-vars -g
 
 cd a-terraform-dir/  # choose your Terraform deployment dir
 terraform output -json | terraform-env-vars --edn env-vars.edn
