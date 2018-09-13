@@ -45,6 +45,10 @@ PGPASSWORD="..."
 ...
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
 ## License
 
 Copyright 2018 Elastic Path
