@@ -30,12 +30,12 @@ You can also pass a JSON file by using the `--json` options:
  "terraform_db_passaword": "PGPASSWORD"}
 ```
 
-Run `terraform-env-vars --help` for more.
+Run `terraform-env-vars --help` for a help.
 
 #### Usage
 
 ```shell
-npm install -g @ep-npm/terraform-env-vars -g
+npm install -g @ep-npm/terraform-env-vars
 
 cd a-terraform-dir/  # choose your Terraform deployment dir
 terraform output -json | terraform-env-vars --edn env-vars.edn
