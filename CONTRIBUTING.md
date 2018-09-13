@@ -47,7 +47,7 @@ This will create the JavaScript file and execute tests on file change, see
 
 ## REPL driven development workflow
 
-The command that watches and compile is usually along the lines of:
+The command that watches, compiles and starts a REPL is along the lines of:
 
 ```
 yarn shadow-cljs watch <script|test>
