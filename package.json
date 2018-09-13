@@ -1,12 +1,14 @@
 {
-  "name": "@elasticpath/terraform-env-vars",
-  "version": "0.7.0",
+  "name": "@ep-npm/terraform-env-vars",
+  "version": "0.1.0",
   "description": "Continuous delivery helpers",
-  "author": "Elastic Path Software",
+  "author": "Elastic Path",
   "repository": "https://github.com/elasticpath/terraform-env-vars",
   "license": "Apache-2.0",
+  "contributors": [
+    "Andrea Richiardi <a.richiardi.work@gmail.com>"
+  ],
   "keywords": [
-    "elasticpath",
     "elastic",
     "path",
     "elasticpath",

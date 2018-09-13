@@ -1,4 +1,4 @@
-(defproject elasticpath/terraform-env-vars "0.0.0"
+(defproject ep-clj/terraform-env-vars "0.0.0"
   :url "https://github.com/elasticpath/terraform-env-vars"
   :source-paths ["src"]
   :test-paths ["test"]
