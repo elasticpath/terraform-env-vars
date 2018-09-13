@@ -10,11 +10,11 @@ Given the above inputs, it does two things:
 
  * it validates the Terraform output against the mappings
 
-   **displaying errors and returning 1 in case of failures**
+   **it displays errors and exits with 1 in case of failures**
 
  * it prints the list of environment variables on `stdout`
 
-   **the variables are `=`-separated, following the [dotenv](https://github.com/motdotla/dotenv)**
+   **the variables are separated by `=`, following the [dotenv](https://github.com/motdotla/dotenv) format**
 
 An example of EDN environment map:
 
