@@ -3,7 +3,7 @@
  :builds {:script {:target :node-script
                    :main ep.terraform.env-vars/-main
                    :output-to "bin/terraform-env-vars"
-                   :release {:compiler-options {:optimizations :simple}}
+                   :release {:compiler-options {:optimizations :advanced}}
                    :devtools {:autoload false}}
 
           :test {:target :node-test
