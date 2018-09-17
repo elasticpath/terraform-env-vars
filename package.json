@@ -1,6 +1,6 @@
 {
   "name": "@ep-npm/terraform-env-vars",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility for transforming Terraform variables to environment variables",
   "author": "Elastic Path",
   "repository": "https://github.com/elasticpath/terraform-env-vars",
