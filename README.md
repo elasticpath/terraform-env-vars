@@ -36,7 +36,7 @@ Run `terraform-env-vars --help` for a help.
 
 ###### IMPORTANT NOTICE:
 
-The package scope of this package has been change to `@elasticpath`.
+The scope of this package has been changed to `@elasticpath` since [`v1.1.0`](https://github.com/elasticpath/terraform-env-vars/releases/tag/v1.1.0). You can find previous versions under the `@ep-npm` scope.
 
 
 ```shell
